@@ -1,0 +1,177 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$frontend-primary: mat.define-palette(mat.$indigo-palette);
+$frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$frontend-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$frontend-theme: mat.define-light-theme((
+  color: (
+    primary: $frontend-primary,
+    accent: $frontend-accent,
+    warn: $frontend-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($frontend-theme);
+
+@import 'styles/variables';
+@import 'styles/spacing';
+@import 'styles/typography';
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  /*font-family: Roboto, "Helvetica Neue", sans-serif;*/
+}
+
+p, span, div {
+  color: var(--musclehustle-dark);
+}
+
+a {
+  color: var(--musclehustle-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--musclehustle-secondary);
+}
+
+mat-drawer-container {
+  position: initial;
+
+  mat-drawer-content {
+    margin-left: 65px !important;
+    transition: margin-left 0.2s;
+  }
+
+  &.expanded {
+    mat-drawer-content {
+      margin-left: 190px !important;
+    }
+  }
+}
+
+
+@media (max-width: 576px) {
+  mat-drawer-container{
+    mat-drawer {
+      width: 0;
+    }
+    mat-drawer-content {
+      margin-left: 0 !important;
+    }
+    &.expanded {
+      mat-drawer {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Buttons */
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button.primary-button {
+  margin: 5px;
+  height: 40px;
+  background-color: var(--musclehustle-secondary);
+}
+
+.mat-icon-button.edit mat-icon {
+  color: var(--musclehustle-secondary-dark);
+}
+
+.mat-icon-button.delete mat-icon {
+  color: var(--musclehustle-primary-dark);
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button.create-button {
+  margin: 5px;
+  height: 40px;
+  background-color: var(--musclehustle-primary-light);
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button.create-button span {
+  color: var(--musclehustle-grey-light);
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button.create-button.mat-button-disabled span {
+  color: var(--musclehustle-dark);
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
+  margin: 5px;
+  height: 40px;
+  background-color: unset;
+}
+
+/* Card */
+.primary-card-container {
+  padding: 20px;
+
+  mat-card {
+    background-color: var(--musclehustle-dark);
+    padding: 0 0 0 0;
+
+    .card-header {
+      padding: 15px;
+
+      mat-card-title, h1 {
+        margin: 0px;
+      }
+    }
+
+    mat-card-content {
+      margin: 0;
+      background-color: #fff;
+    }
+
+    mat-card-actions {
+      background-color: #fff;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  table {
+    width: 100%;
+
+    tr:nth-child(odd) {
+      background: var(--musclehustle-grey-light);
+    }
+
+    tr:nth-child(even) {
+      background: #fff;
+    }
+
+    tr.mat-header-row {
+      background-color: var(--musclehustle-primary);
+    }
+  }
+}
+
+/* Snackbar */
+simple-snack-bar span {
+  color: var(--musclehustle-grey-light);
+}
+

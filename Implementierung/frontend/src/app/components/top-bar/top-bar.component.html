@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+    <button mat-icon-button (click)="toggleExpanded()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img [src]="'../../../assets/logo/LogoMuscleHustleSekundär.PNG'" >
+
+
+    <div style="display: inline;" fxLayout="row" fxLayoutAlign="space-between center">
+      <span style="padding-right: 5px;" fxHide.xs="true">{{ currentUserType + " " + currentUser }}</span>
+      <button mat-flat-button routerLink="settings">
+        <mat-icon class="user-icon" mat-list-icon>person</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

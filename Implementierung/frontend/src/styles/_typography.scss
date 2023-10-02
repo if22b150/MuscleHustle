@@ -1,0 +1,51 @@
+:root
+{
+  --font-primary: Roboto, "Helvetica Neue", sans-serif;
+  --font-secondary: orator-std, monospace;
+
+  --text-base-size: 1em;
+  --text-small: 0.7em;
+  --text-scale-ratio: 1.2;
+
+  --heading-line-height: 1.2;
+  --body-line-height: 1.4;
+}
+
+body {
+  font-size: var(--text-base-size);
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  line-height: var(--body-line-height);
+}
+
+form legend {
+  font-family: var(--font-secondary) !important;
+  color: var(--musclehustle-grey-light);
+  margin-bottom: var(--space-xxs);
+  line-height: var(--heading-line-height);
+}
+
+span {
+  font-family: var(--font-secondary) !important;
+  color: var(--musclehustle-dark);
+  margin-bottom: var(--space-xxs);
+  line-height: var(--heading-line-height);
+}
+
+h4 {
+  font-family: var(--font-secondary) !important;
+  color: var(--musclehustle-grey-light);
+  margin-bottom: var(--space-xxs);
+  line-height: var(--heading-line-height);
+
+  &:active, &:focus, &:hover {
+    color: var(--musclehustle-primary);
+  }
+}
+
+h1, h2, h3 {
+  font-family: var(--font-secondary) !important;
+  color: var(--musclehustle-grey-light) !important;
+  margin-bottom: var(--space-xxs);
+  line-height: var(--heading-line-height);
+}

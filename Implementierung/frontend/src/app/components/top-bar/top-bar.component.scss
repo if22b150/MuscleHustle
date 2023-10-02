@@ -1,0 +1,34 @@
+mat-toolbar {
+  background-color: var(--musclehustle-primary);
+}
+
+img {
+  height: 40px;
+}
+
+.user-icon {
+  height: 40px;
+  width: 40px;
+  color: var(--musclehustle-grey-light);
+  font-size: 40px;
+}
+
+span {
+  font-size: var(--text-small);
+}
+
+@media (max-width: 576px) {
+  mat-toolbar {
+    padding: 5px;
+  }
+
+  img {
+    height: 30px;
+  }
+
+  .user-icon {
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+  }
+}
