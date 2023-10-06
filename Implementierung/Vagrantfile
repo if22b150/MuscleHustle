@@ -1,0 +1,81 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/contrib-buster64"
+
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "private_network", ip: "172.24.24.24"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  config.vm.synced_folder "./backend", "/repo/backend"
+
+  config.vm.provider "virtualbox" do |vb|
+    #vb.gui = true
+    vb.memory = "2048"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    curl -sSL https://packages.sury.org/php/README.txt | sudo bash -x
+    sudo apt update
+
+    apt-get install -y \
+          nginx \
+          php8.2-fpm \
+          php8.2-bcmath \
+          php8.2-curl \
+          php8.2-mbstring \
+          php8.2-mysql \
+          php8.2-redis \
+          php8.2-tokenizer \
+          php8.2-xml \
+          php8.2-zip \
+          php8.2-gd \
+          redis-server \
+          mariadb-client \
+          mariadb-server
+
+
+    # PHP
+    sed -i 's/www-data/vagrant/g' /etc/php/8.2/fpm/pool.d/www.conf
+    sed -i 's/display_errors = Off/display_errors = On/g' /etc/php/8.2/fpm/php.ini
+    sed -i 's/disabled_functions = /disabled_functions = mail,/g' /etc/php/8.2/fpm/php.ini
+    systemctl restart php8.2-fpm
+
+    # Composer
+    COMPOSER_EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    COMPOSER_ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+    if [ "$COMPOSER_EXPECTED_CHECKSUM" != "$COMPOSER_ACTUAL_CHECKSUM" ]
+    then
+       >&2 echo 'ERROR: Invalid composer installer checksum'
+       rm composer-setup.php
+    fi
+
+    php composer-setup.php --quiet
+    rm composer-setup.php
+    mv composer.phar /usr/bin/composer
+
+    # nginx
+    sed -i 's/www-data/vagrant/g' /etc/nginx/nginx.conf
+    cp /repo/backend/nginx-backend.conf /etc/nginx/conf.d/backend.conf
+    rm /etc/nginx/sites-enabled/default
+    nginx -t
+    systemctl restart nginx
+
+    # MariaDB
+    echo "alias mariadb='mariadb -p '" >>/home/vagrant/.bashrc
+    mariadb -e "CREATE USER vagrant@localhost IDENTIFIED BY 'vagrant';"
+    mariadb -e "GRANT ALL ON musclehustle.* TO vagrant@localhost;"
+    mariadb -e "FLUSH PRIVILEGES;"
+    mariadb -e "CREATE DATABASE IF NOT EXISTS musclehustle;"
+
+    # install composer
+    cd /vagrant/backend
+    composer install
+  SHELL
+end
