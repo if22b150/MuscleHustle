@@ -1,0 +1,54 @@
+mat-card-content .mat-form-field + .mat-form-field {
+  margin-left: 20px;
+}
+
+mat-card-content .mat-form-field {
+  min-width: 250px;
+  width:100%;
+}
+
+mat-card-content form {
+  padding: 15px;
+}
+
+mat-card-content form > * {
+  margin: 5px 0;
+}
+
+mat-card-content .mat-radio-button {
+  margin: 5px 12px;
+}
+
+.muscle-group-chip-list {
+  width: 100%;
+}
+
+.full-width-form {
+  width: 100%;
+}
+
+.exercise-card {
+  padding: 20px;
+  background-color: #fff;
+
+  .mat-card-header .mat-card-title span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  mat-card-content {
+    padding: 0 20px 0 20px;
+  }
+}
+
+.set-card {
+  mat-card-content .mat-form-field {
+    min-width: 100px;
+    width:100%;
+  }
+}
+
+.create-set-button {
+  background-color: var(--musclehustle-grey-light);
+  color: var(--musclehustle-dark);
+}

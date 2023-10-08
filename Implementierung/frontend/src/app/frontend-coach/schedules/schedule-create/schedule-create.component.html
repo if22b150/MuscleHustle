@@ -1,0 +1,236 @@
+<div class="primary-card-container p-5">
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <mat-card-title>
+        <h1>MuscleHustle erstellen</h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="scheduleForm" #form="ngForm" (ngSubmit)="onSubmit()" id="scheduleForm">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" style="max-width: 800px;">
+            <mat-label>Trainingsplanname</mat-label>
+            <input matInput type="text" required placeholder="Trainingsplan" formControlName="scheduleName">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+                          [hideRequiredMarker]="hideRequiredControl.value"
+                          [floatLabel]="floatLabelControl.value"
+                          style="max-width: 300px;">
+            <mat-label>Klient</mat-label>
+            <mat-select required formControlName="client">
+              <mat-option value="option1">Birgit Zeller</mat-option>
+              <mat-option value="option2">Max Mustermann</mat-option>
+              <mat-option value="option3">Maria Musterfrau</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-radio-group aria-label="Option auswählen" formControlName="clientEnabled">
+            <mat-radio-button value="1">Öffentlich</mat-radio-button>
+            <mat-radio-button value="2">Vor Klient verbergen</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- Exercise create start -->
+        <mat-card class="exercise-card">
+          <mat-card-header>
+            <mat-card-title>
+              <span>Übung</span>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+              <mat-form-field appearance="outline"
+                              [hideRequiredMarker]="hideRequiredControl.value"
+                              [floatLabel]="floatLabelControl.value"
+                              style="max-width: 300px;">
+                <mat-label>Übung</mat-label>
+                <mat-select formControlName="exercise">
+                  <mat-option value="Squats">Squats</mat-option>
+                  <mat-option value="Deadlift">Deadlift</mat-option>
+                  <mat-option value="Glute">Glute Bridge</mat-option>
+                  <mat-option value="Sit">Sit Ups</mat-option>
+                  <mat-option value="Lunges">Lunges</mat-option>
+                  <mat-option value="Mountain">Mountain</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value">
+                <mat-label>Übungsnotiz</mat-label>
+                <input matInput type="text" placeholder="Individuelle Notiz für den Klienten zu der Übung..." formControlName="exerciseNote">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" style="max-width: 100px;">
+                <mat-label>Reihenfolge</mat-label>
+                <input matInput type="number" placeholder="1" formControlName="exerciseOrderNumber">
+              </mat-form-field>
+            </div>
+
+            <!-- Set create start-->
+            <mat-card class="exercise-card set-card">
+              <mat-card-header>
+                <mat-card-title>
+                  <span>Sets</span>
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div formArrayName="sets">
+                  <div *ngFor="let set of sets.controls; let i=index">
+
+                    <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+                      <!-- unit or duration time -->
+                      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value">
+                        <mat-label>Gewicht (kg)</mat-label>
+                        <input matInput type="number" placeholder="10" formControlName="weight">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value">
+                        <mat-label>Durchführungszeit (sek.)</mat-label>
+                        <input matInput type="number" placeholder="60" formControlName="durationTime">
+                      </mat-form-field>
+
+                      <!-- repNumber -->
+                      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value">
+                        <mat-label>Wiederholungsanzahl</mat-label>
+                        <input matInput type="number" placeholder="12" formControlName="repNumber">
+                      </mat-form-field>
+
+                      <!-- RPE -->
+                      <mat-form-field appearance="outline"
+                                      [hideRequiredMarker]="hideRequiredControl.value"
+                                      [floatLabel]="floatLabelControl.value"
+                                      style="max-width: 100px;">
+                        <mat-label>RPE</mat-label>
+
+                        <mat-select formControlName="rpe">
+                          <mat-option value="1">1</mat-option>
+                          <mat-option value="2">2</mat-option>
+                          <mat-option value="3">3</mat-option>
+                          <mat-option value="4">4</mat-option>
+                          <mat-option value="5">5</mat-option>
+                          <mat-option value="6">6</mat-option>
+                          <mat-option value="7">7</mat-option>
+                          <mat-option value="8">8</mat-option>
+                          <mat-option value="9">9</mat-option>
+                          <mat-option value="10">10</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <!-- breakTime -->
+                      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value">
+                        <mat-label>Pause (sek.)</mat-label>
+                        <input matInput type="number" placeholder="60" formControlName="breakTime">
+                      </mat-form-field>
+
+                      <!-- orderNumber -->
+                      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" style="max-width: 100px;">
+                        <mat-label>Reihenfolge</mat-label>
+                        <input matInput placeholder="1" formControlName="setOrderNumber">
+                      </mat-form-field>
+
+                      <button mat-icon-button class="delete" type="button" (click)="removeSet(i)">
+                        <mat-icon style="vertical-align: unset;">cancel</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions fxLayout="row" fxLayoutAlign="end center" fxFlexFill class="card-header">
+                <div>
+                  <button mat-flat-button
+                          class="create-set-button"
+                          (click)="addSets()"
+                          type="button">
+                    <mat-icon style="font-size: 21px;">add</mat-icon>Set hinzufügen
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+            <!-- Set create end -->
+          </mat-card-content>
+
+          <mat-card-actions fxLayout="row" fxLayoutAlign="end center" fxFlexFill class="card-header">
+            <div>
+              <button mat-flat-button
+                      class="primary-button"
+                      (click)="createExercise()">
+                <mat-icon style="font-size: 21px;">add</mat-icon>Übung hinzufügen
+              </button>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+        <!-- exercise create end -->
+      </form>
+
+      <!-- Schedule overview start -->
+      <div class="primary-card-container">
+        <mat-card>
+          <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+            <mat-card-title>
+              <h2 style="margin: 0px;">Trainingsplan</h2>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+              <ng-container matColumnDef="order">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px;"> Reihenfolge </th>
+                <td mat-cell *matCellDef="let element"> {{element.order}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sets">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Sets </th>
+                <td mat-cell *matCellDef="let element"> {{element.sets}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="note">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Notiz </th>
+                <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Löschen </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button class="delete" (click)="delete(element.id)">
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <button mat-flat-button
+              class="primary-button"
+              routerLink="../">
+        Zurück
+      </button>
+      <button mat-flat-button
+              class="create-button"
+              type="submit"
+              form="scheduleForm"
+              [disabled]="!scheduleForm.valid">
+        Trainingsplan erstellen
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

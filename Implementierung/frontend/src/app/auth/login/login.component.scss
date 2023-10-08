@@ -3,10 +3,22 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f4f4f4;
 }
 
 .login-card {
-  width: 300px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  max-width: 200px;
+  margin: 0 auto;
+  display: block;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .full-width {
@@ -15,5 +27,8 @@
 
 .button-container {
   text-align: center;
-  margin-top: 20px;
+}
+
+button[type="submit"] {
+  width: 100%;
 }

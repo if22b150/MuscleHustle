@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {User} from "../models/user.model";
+import {ERole, User} from "../models/user.model";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,17 @@ export class AuthService {
 
   public get user(): User {
     return this._user.value;
+  }
+
+  public set user(user: User) {
+    if (user && !user?.token) {
+      user.token = this.token;
+    }
+
+    this._user.next(user);
+
+    localStorage.removeItem('user');
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   public get token(): string {
@@ -36,22 +48,22 @@ export class AuthService {
 
     return new Promise<any>((resolve, reject) => {
 
-      // this.http.post<User>(environment.authApiUrl + 'login', {email: email, password: password})
-      //   .subscribe({
-      //     next: (user: User) => {
-      //       this.updateUser(user);
-      //
-      //       if (this.user.role == EUserRole.USER) {
-      //         window.location.href = '';
-      //       } else if (this.user.role == EUserRole.ADMIN) {
-      //         window.location.href = 'admin';
-      //       }
-      //       resolve(user);
-      //     }, error: (error) => {
-      //       console.log(error); // TODO: IMPLEMENT ALERT
-      //       reject(error);
-      //     }
-      //   })
+      return this.http.post<User>(environment.authApiUrl + 'login', {email: email, password: password})
+        .subscribe({
+          next: (user: User) => {
+            this.user = user;
+
+            if (this.user.role == ERole.CLIENT) {
+              window.location.href = 'client';
+            } else if (this.user.role == ERole.COACH) {
+              window.location.href = 'coach';
+            }
+            resolve(user);
+          }, error: (error) => {
+            console.log(error); // TODO: IMPLEMENT ALERT
+            reject(error);
+          }
+        })
     })
   }
 

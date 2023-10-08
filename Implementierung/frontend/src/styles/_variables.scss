@@ -1,13 +1,58 @@
-:root
-{
-  --musclehustle-primary: #B0131E;
+:root {
+  --musclehustle-primary-50: #feeaee;
+  --musclehustle-primary-100: #fccbd1;
+  --musclehustle-primary-200: #ea9799;
+  --musclehustle-primary-300: #df6f72;
+  --musclehustle-primary-400: #e84d50;
+  --musclehustle-primary-500: #ed3b37;
+  --musclehustle-primary-600: #de3136;
+  --musclehustle-primary-700: #cc2730;
+  --musclehustle-primary-800: #bf2029;
+  --musclehustle-primary-900: #b0131e;
+  --musclehustle-secondary-50: #e2f5ff;
+  --musclehustle-secondary-100: #b4e6fd;
+  --musclehustle-secondary-200: #84d5fc;
+  --musclehustle-secondary-300: #54c5fa;
+  --musclehustle-secondary-400: #33b8f9;
+  --musclehustle-secondary-500: #1eabf7;
+  --musclehustle-secondary-600: #1c9de8;
+  --musclehustle-secondary-700: #1a8ad4;
+  --musclehustle-secondary-800: #1779bf;
+  --musclehustle-secondary-900: #13599d;
+
+  --musclehustle-primary: var(--musclehustle-primary-900);
   --musclehustle-primary-light: #D01622;
   --musclehustle-primary-dark: #8A0F17;
-  --musclehustle-secondary: #1EABF7;
+  --musclehustle-secondary: var(--musclehustle-secondary-500);
   --musclehustle-secondary-light: #3AB5F8;
   --musclehustle-secondary-dark: #228FCF;
   --musclehustle-dark: #1C1C1B;
   --musclehustle-grey-light: #e6e6e6;
   --musclehustle-grey-dark: #ccc;
 }
+
+$musclehustle-palette: (
+  50: #feeaee,
+  100: #fccbd1,
+  200: #ea9799,
+  300: #df6f72,
+  400: #e84d50,
+  500: #ed3b37,
+  600: #de3136,
+  700: #cc2730,
+  800: #bf2029,
+  900: var(--musclehustle-primary-900),
+  contrast: (
+    50: #e2f5ff,
+    100: #b4e6fd,
+    200: #84d5fc,
+    300: #54c5fa,
+    400: #33b8f9,
+    500: var(--musclehustle-secondary-500),
+    600: #1c9de8,
+    700: #1a8ad4,
+    800: #1779bf,
+    900: #13599d
+  )
+);
 

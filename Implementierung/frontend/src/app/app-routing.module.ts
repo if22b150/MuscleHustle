@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {loginGuard} from "./guards/login.guard";
+import {coachGuard} from "./guards/coach.guard";
 
 const routes: Routes = [
   {
@@ -8,11 +9,11 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
     canActivate: [loginGuard]
   },
-  // {
-  //   path: 'coach',
-  //   loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-  //   canActivate: [coachGuard]
-  // },
+  {
+    path: 'coach',
+    loadChildren: () => import('./frontend-coach/frontend-coach.module').then(m => m.FrontendCoachModule),
+    canActivate: [coachGuard]
+  },
   {path: '**', redirectTo: 'auth'}
 ];
 

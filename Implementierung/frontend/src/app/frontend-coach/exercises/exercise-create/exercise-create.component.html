@@ -1,0 +1,89 @@
+<div class="primary-card-container">
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <mat-card-title>
+        <h1>Übung erstellen</h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="exerciseForm" (ngSubmit)="onSubmit()" id="exerciseForm">
+        <div fxLayout='row'>
+          <mat-form-field fxFlex="100%" appearance="outline" [floatLabel]="floatLabelControl.value">
+            <mat-label>Übungsname</mat-label>
+            <input matInput type="text" required placeholder="Deadlift" formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100%" appearance="outline"
+                          [hideRequiredMarker]="hideRequiredControl.value"
+                          [floatLabel]="floatLabelControl.value">
+            <mat-label>Typ</mat-label>
+            <mat-select required formControlName="type">
+              <mat-option value="Cardio">Cardio</mat-option>
+              <mat-option value="Bodyweight">Bodyweight</mat-option>
+              <mat-option value="Weight">Weight</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" class="full-width-form">
+            <mat-label>Beschreibung</mat-label>
+            <textarea matInput type="text" placeholder="Übungsbeschreibung..." formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="muscle-group-chip-list">
+            <mat-label>Muskelgruppen</mat-label>
+            <mat-chip-grid #chipList aria-label="Musclegroup selection">
+              <mat-chip-row
+                *ngFor="let muscleGroup of muscleGroups"
+                (removed)="remove(muscleGroup)">
+                {{muscleGroup}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip-row>
+              <input
+                placeholder="Neue Muskelgruppe..."
+                #muscleGroupInput
+                [formControl]="muscleGroupCtrl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+                formControlName="newMuscleGroup">
+            </mat-chip-grid>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let muscleGroup of filteredMuscleGroups | async" [value]="muscleGroup">
+                {{muscleGroup}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" class="full-width-form">
+            <mat-label>Video Link</mat-label>
+            <input matInput type="url" required placeholder="https://www.youtube.com/" formControlName="videoLink">
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <button mat-flat-button
+              class="primary-button"
+              routerLink="../">
+        Zurück
+      </button>
+      <button mat-flat-button
+              class="create-button"
+              type="submit"
+              form="exerciseForm"
+              [disabled]="!exerciseForm.valid">
+        Übung erstellen
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

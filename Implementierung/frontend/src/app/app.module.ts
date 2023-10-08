@@ -8,15 +8,12 @@ import {MaterialModule} from "./modules/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { TopBarComponent } from './frontend-coach/top-bar/top-bar.component';
 import {AuthInterceptorService} from "./services/auth-interceptor.service";
-import { FrontendCoachComponent } from './frontend-coach/frontend-coach/frontend-coach.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TopBarComponent,
-    FrontendCoachComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

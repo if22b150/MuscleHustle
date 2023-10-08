@@ -1,0 +1,70 @@
+<div class="primary-card-container">
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <mat-card-title>
+        <h1>MuscleHustles</h1>
+      </mat-card-title>
+
+      <div>
+        <button mat-flat-button class="primary-button" routerLink="create">
+          MuscleHustle erstellen
+        </button>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 50px;"> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Klient </th>
+          <td mat-cell *matCellDef="let element"> {{element.clientId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="exercises">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Übungen </th>
+          <td mat-cell *matCellDef="let element"> {{element.exercises}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="enabledForClient">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Öffentlich </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox [checked]="element.enabledForClient" (change)="toggleEnabled($event.checked, element.id)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Bearbeiten </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="edit" (click)="edit(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Löschen </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="delete" (click)="delete(element.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </mat-card-content>
+  </mat-card>
+</div>

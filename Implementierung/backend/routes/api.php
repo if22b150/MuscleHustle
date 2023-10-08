@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::name('auth.')->middleware(['api'])->group(function() {
+Route::name('auth.')->middleware(['api'])->prefix('auth')->group(function() {
 //    Route::post('register', [UserController::class, 'store']);
 //    Route::patch('username', [UserController::class, 'checkUsername']);
 //    Route::patch('email', [UserController::class, 'checkEmail']);
