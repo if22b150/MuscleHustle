@@ -10,6 +10,8 @@ import {TopBarComponent} from "./top-bar/top-bar.component";
 import { ScheduleCreateComponent } from './schedules/schedule-create/schedule-create.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseCreateComponent } from './exercises/exercise-create/exercise-create.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientCreateComponent } from './clients/client-create/client-create.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ExerciseCreateComponent } from './exercises/exercise-create/exercise-cr
     TopBarComponent,
     ScheduleCreateComponent,
     ExercisesComponent,
-    ExerciseCreateComponent
+    ExerciseCreateComponent,
+    ClientsComponent,
+    ClientCreateComponent
   ],
   imports: [
     FrontendCoachRoutingModule,

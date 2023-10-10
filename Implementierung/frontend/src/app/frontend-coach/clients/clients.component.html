@@ -1,0 +1,66 @@
+<div class="primary-card-container">
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <mat-card-title>
+        <h1>Klienten</h1>
+      </mat-card-title>
+
+      <div>
+        <button mat-flat-button class="primary-button" routerLink="create">
+          Klienten hinzufügen
+        </button>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="firstname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Vorname </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nachname </th>
+          <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Geschlecht </th>
+          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Telefonnummer </th>
+          <td mat-cell *matCellDef="let element"><a href="tel:{{element.phoneNumber}}"> {{element.phoneNumber}} </a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </th>
+          <td mat-cell *matCellDef="let element"><a href="mailto:{{element.email}}"> {{element.email}} </a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Bearbeiten </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="edit" (click)="edit(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Löschen </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="delete" (click)="delete(element.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\EGender;
 use App\Enums\ERole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $user = new User([
-            'name' => 'Coach Emil',
+            'firstname' => 'Tomse',
+            'lastname' => 'Zeller',
+            'phone' => '06601234567',
+            'gender' => EGender::MALE,
             'email' => 'if22b150@technikum-wien.at',
             'password' => Hash::make('123456'),
             'role' => ERole::COACH,

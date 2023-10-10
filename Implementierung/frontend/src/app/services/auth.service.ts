@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public get isLoggedIn(): boolean {
-    return this._user.value != null && this._user.value.verified;
+    return this._user.value != null && this._user.value.verified && this._user.value.token != null;
   }
 
   constructor(private http: HttpClient) {
@@ -66,5 +66,43 @@ export class AuthService {
         })
     })
   }
+
+  // public logout(confirm: boolean = true): void {
+    // this.modalService
+    //   .open(ConfirmModalComponent, {
+    //     data: {
+    //       name: 'LOGOUT',
+    //       description: 'ARE_YOU_SURE_YOU_WANT_TO_LOGOUT',
+    //       icon: 'fas fa-sign-out',
+    //       confirmModalType: EConfirmModalType.DANGER
+    //     }
+    //   })
+    //   .onClose.subscribe((confirm) => {
+    //   if (confirm) {
+    //
+    //     this.loading = true;
+  //
+  //       localStorage.clear();
+  //       sessionStorage.clear();
+  //
+  //       this.http.post<any>(environment.authApiUrl + 'logout', {})
+  //         .pipe(finalize(() => {
+  //           this.loading = false;
+  //         })).subscribe({
+  //
+  //         next: () => {
+  //           console.log('SUCESSFULLY LOGGED OUT'); // TODO: IMPLEMENT ALERT
+  //           this.updateUser(null);
+  //           window.location.href = '';
+  //
+  //         }, error: (error) => {
+  //           console.log(error); // TODO: IMPLEMENT ALERT
+  //         }
+  //
+  //       })
+  //   //   }
+  //   // })
+  // }
+
 
 }

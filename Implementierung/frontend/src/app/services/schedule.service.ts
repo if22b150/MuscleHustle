@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, catchError, Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Schedule} from "../models/schedule.model";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,8 @@ export class ScheduleService {
     this.getSchedules();
   }
 
-  private baseURL: string = 'http://127.0.0.1:8000/api/';
-
   public getSchedules() {
-    this._http.get<Schedule>(this.baseURL + 'schedules', {})
+    this._http.get<Schedule>(environment.coachApiUrl + 'schedules', {})
       .subscribe((data: Schedule) => {
         catchError(this.handleError<Schedule[]>('getSchedules', []))
         this._schedules.next(data);
