@@ -20,7 +20,7 @@
             <mat-label>Typ</mat-label>
             <mat-select required formControlName="type">
               <mat-option value="Cardio">Cardio</mat-option>
-              <mat-option value="Bodyweight">Bodyweight</mat-option>
+              <mat-option value="body_weight">Bodyweight</mat-option>
               <mat-option value="Weight">Weight</mat-option>
             </mat-select>
           </mat-form-field>
@@ -40,7 +40,7 @@
               <mat-chip-row
                 *ngFor="let muscleGroup of muscleGroups"
                 (removed)="remove(muscleGroup)">
-                {{muscleGroup}}
+                {{muscleGroup.name}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip-row>
               <input
@@ -54,8 +54,8 @@
                 formControlName="newMuscleGroup">
             </mat-chip-grid>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let muscleGroup of filteredMuscleGroups | async" [value]="muscleGroup">
-                {{muscleGroup}}
+              <mat-option *ngFor="let muscleGroup of filteredMuscleGroups" [value]="muscleGroup">
+                {{muscleGroup.name}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -73,14 +73,16 @@
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
       <button mat-flat-button
               class="primary-button"
-              routerLink="../">
+              [routerLink]="['../']">
         Zurück
       </button>
       <button mat-flat-button
               class="create-button"
               type="submit"
               form="exerciseForm"
-              [disabled]="!exerciseForm.valid">
+              color="primary"
+              [disabled]="!exerciseForm.valid"
+      >
         Übung erstellen
       </button>
     </mat-card-actions>

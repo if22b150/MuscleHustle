@@ -9,7 +9,9 @@ mat-drawer-container {
     background-color: var(--musclehustle-dark);
 
     mat-list-item {
-      color: var(--musclehustle-grey-light);
+      a {
+        color: var(--musclehustle-grey-light);
+      }
 
       .mat-icon {
         color: var(--musclehustle-grey-light);
@@ -17,7 +19,7 @@ mat-drawer-container {
 
       &.active {
 
-        h4, mat-icon {
+        a, mat-icon {
           color: var(--musclehustle-primary) !important;
         }
       }

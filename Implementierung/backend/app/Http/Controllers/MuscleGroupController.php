@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMuscleGroupRequest;
 use App\Repositories\Interfaces\MuscleGroupRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class MuscleGroupController extends Controller
 {

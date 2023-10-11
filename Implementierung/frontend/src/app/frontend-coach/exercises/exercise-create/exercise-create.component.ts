@@ -1,12 +1,15 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {EExerciseType} from "../../../models/enum/exercisetype.model";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
+import {filter, map, Observable, startWith} from "rxjs";
 import {MessageService} from "../../../services/message.service";
 import {Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {MuscleGroupService} from "../../../services/muscle-group.service";
+import {MuscleGroup} from "../../../models/muscle-group.model";
+import {ExerciseService} from "../../../services/exercise.service";
 
 export class Exercise {
   private name: string;
@@ -29,7 +32,7 @@ export class Exercise {
   templateUrl: './exercise-create.component.html',
   styleUrls: ['./exercise-create.component.scss']
 })
-export class ExerciseCreateComponent {
+export class ExerciseCreateComponent implements OnInit{
   exerciseForm: FormGroup;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
@@ -39,21 +42,21 @@ export class ExerciseCreateComponent {
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   muscleGroupCtrl = new FormControl();
-  filteredMuscleGroups: Observable<string[]>;
-  muscleGroups: string[] = ['Unterer Rücken'];
-  allMuscleGroups: string[] = ['Bauch', 'Schultern', 'Po', 'Beine', 'Bizeps'];
+  filteredMuscleGroups: MuscleGroup[] = [];
+  muscleGroups: MuscleGroup[] = [];
 
   @ViewChild('muscleGroupInput') muscleGroupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private fb: FormBuilder,
               private messageService: MessageService,
+              private exerciseService: ExerciseService,
+              private muscleGroupService: MuscleGroupService,
               private router: Router) {
-    this.filteredMuscleGroups = this.muscleGroupCtrl.valueChanges.pipe(
-      startWith(null),
-      map((muscleGroup: string | null) => muscleGroup ? this._filter(muscleGroup) : this.allMuscleGroups.slice()));
+  }
 
-    this.exerciseForm = fb.group({
+  ngOnInit(): void {
+    this.exerciseForm = this.fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
       name: [null, [Validators.required]],
@@ -62,14 +65,14 @@ export class ExerciseCreateComponent {
       newMuscleGroup: [null],
       videoLink: [null, [Validators.required]]
     });
-  }
 
-  ngOnInit(): void {
-  }
-
-  createExercise() {
-    this.messageService.openSnackBar('Übung wurde angelegt', 'Ausblenden');
-    this.exercise = new Exercise('Mountain Climbers', EExerciseType.bodyweight, '', ['Bauch', 'Po'], 'https://www.youtube.com/watch?v=nmwgirgXLYM');
+    this.muscleGroupService.muscleGroups$
+      .pipe(filter(mg => mg != null))
+      .subscribe({
+        next: (mg) => {
+          this.filteredMuscleGroups = mg;
+        }
+      })
   }
 
   add(event: MatChipInputEvent): void {
@@ -77,7 +80,11 @@ export class ExerciseCreateComponent {
 
     // Add muscleGroup
     if (value) {
-      this.muscleGroups.push(value);
+      this.muscleGroupService.create(value).subscribe({
+        next: (mg) => {
+          this.muscleGroups.push(mg);
+        }
+      })
     }
 
     // Clear the input value
@@ -86,7 +93,7 @@ export class ExerciseCreateComponent {
     this.muscleGroupCtrl.setValue(null);
   }
 
-  remove(muscleGroup: string): void {
+  remove(muscleGroup: MuscleGroup): void {
     const index = this.muscleGroups.indexOf(muscleGroup);
 
     if (index >= 0) {
@@ -95,24 +102,29 @@ export class ExerciseCreateComponent {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.muscleGroups.push(event.option.viewValue);
+    this.muscleGroups.push(event.option.value);
     this.muscleGroupInput.nativeElement.value = '';
     this.muscleGroupCtrl.setValue(null);
-  }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allMuscleGroups.filter(muscleGroup => muscleGroup.toLowerCase().indexOf(filterValue) === 0);
+    this.filteredMuscleGroups = this.filteredMuscleGroups.filter(mg => mg.id != event.option.value.id);
   }
 
   onSubmit() {
     if(this.exerciseForm.valid) {
       let exercise = this.exerciseForm.value;
-      console.log(exercise);
-      console.log(this.muscleGroups);
-      this.createExercise();
-      this.router.navigateByUrl('../');
+      this.exerciseService.create(
+        this.exerciseForm.get('name').value,
+        this.exerciseForm.get('description').value,
+        this.exerciseForm.get('videoLink').value,
+        this.exerciseForm.get('type').value,
+        this.muscleGroups.map(m => m.id)
+      ).subscribe({
+        next: () => {
+          this.router.navigate(['coach/exercises']);
+          this.messageService.openSnackBar("Übung wurde erstellt.", "Ok");
+          this.exerciseService.getAll();
+        }
+      });
     }
   }
 }

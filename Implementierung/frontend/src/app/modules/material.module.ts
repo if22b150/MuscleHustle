@@ -14,6 +14,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatInputModule} from "@angular/material/input";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   imports: [],
@@ -32,7 +33,8 @@ import {MatChipsModule} from "@angular/material/chips";
     MatRadioModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    MatMenuModule
   ],
   providers: []
 } )

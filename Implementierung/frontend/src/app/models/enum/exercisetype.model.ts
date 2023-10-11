@@ -1,5 +1,5 @@
 export enum EExerciseType {
-  cardio = 'CARDIO',
-  bodyweight = 'BODYWEIGHT',
-  weight = 'WEIGHT'
+  CARDIO,
+  BODY_WEIGHT,
+  WEIGHT
 }

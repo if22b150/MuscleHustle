@@ -6,27 +6,27 @@
 
 
     <mat-nav-list>
-      <mat-list-item routerLink="schedule" routerLinkActive="active" (click)="onClick()">
-        <mat-icon matListItemIcon>event</mat-icon>
-        <h4 matListItemTitle>Trainingsplan</h4>
+      <mat-list-item routerLink="schedules" routerLinkActive="active" (click)="onClick()">
+        <mat-icon matListItemIcon class="mr-4">event</mat-icon>
+        <a matListItemTitle>Trainingsplan</a>
       </mat-list-item>
       <mat-list-item routerLink="exercises" routerLinkActive="active" (click)="onClick()">
-        <mat-icon matListItemIcon>fitness_center</mat-icon>
-        <h4 matListItemTitle>Übungen</h4>
+        <mat-icon matListItemIcon class="mr-4">fitness_center</mat-icon>
+        <a matListItemTitle>Übungen</a>
       </mat-list-item>
       <mat-list-item routerLink="clients" routerLinkActive="active" (click)="onClick()">
-        <mat-icon matListItemIcon>groups</mat-icon>
-        <h4 matListItemTitle>Klienten</h4>
+        <mat-icon matListItemIcon class="mr-4">groups</mat-icon>
+        <a matListItemTitle>Klienten</a>
       </mat-list-item>
       <mat-list-item routerLink="settings" routerLinkActive="active" (click)="onClick()">
-        <mat-icon matListItemIcon>settings</mat-icon>
-        <h4 matListItemTitle>Einstellungen</h4>
+        <mat-icon matListItemIcon class="mr-4">settings</mat-icon>
+        <a matListItemTitle>Einstellungen</a>
       </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
 
-  <div class="sidenav-content">
+  <mat-drawer-content class="sidenav-content">
     <app-top-bar></app-top-bar>
     <router-outlet></router-outlet>
-  </div>
+  </mat-drawer-content>
 </mat-drawer-container>

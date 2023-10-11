@@ -11,13 +11,13 @@ import {ExerciseService} from "../../services/exercise.service";
   styleUrls: ['./exercises.component.scss']
 })
 export class ExercisesComponent {
-  displayedColumns: string[] = ['id', 'type', 'name', 'muscleGroup', 'edit', 'delete'];
-  exercises: Exercise;
+  displayedColumns: string[] = ['id', 'type', 'name', 'muscleGroups', 'edit', 'delete'];
+  exercises: Exercise[];
   dataSource;
 
   constructor(private messageService: MessageService,
               private exerciseService: ExerciseService) {
-    this.exerciseService.exercises$.subscribe((exercises: any) => {
+    this.exerciseService.exercises$.subscribe((exercises: Exercise[]) => {
       if (exercises != null) {
         this.exercises = exercises;
         this.dataSource = new MatTableDataSource(exercises);
@@ -28,14 +28,17 @@ export class ExercisesComponent {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  ngAfterViewInit() {
-  }
-
   edit(id: number) {
     this.messageService.openSnackBar('Übung ' + id + ' kann leider noch nicht editiert werden', 'Ok');
   }
 
-  delete(id: number) {
-    this.messageService.openSnackBar('Übung ' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
+  delete(exercise: Exercise) {
+    this.exerciseService.delete(exercise.id)
+      .subscribe({
+        next: () => {
+          this.messageService.openSnackBar('Übung "' + exercise.name + '" wurde gelöscht.', 'Ok');
+          this.exerciseService.getAll();
+        }
+      })
   }
 }

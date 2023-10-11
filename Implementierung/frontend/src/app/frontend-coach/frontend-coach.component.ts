@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SidenavService} from "../services/sidenav.service";
+import {MuscleGroupService} from "../services/muscle-group.service";
+import {ExerciseService} from "../services/exercise.service";
 
 @Component({
   selector: 'app-frontend-coach',
   templateUrl: './frontend-coach.component.html',
   styleUrls: ['./frontend-coach.component.scss']
 })
-export class FrontendCoachComponent {
+export class FrontendCoachComponent implements OnInit{
   fullExpandMaxWidth: number = 576;
 
-  constructor(public sidenavService: SidenavService) {
+  constructor(public sidenavService: SidenavService,
+              private muscleGroupService: MuscleGroupService,
+              private exerciseService: ExerciseService) {
   }
 
   onClick() {
     if(this.sidenavService.isExpanded && window.innerWidth <= this.fullExpandMaxWidth) {
       this.sidenavService.isExpanded = false;
     }
+  }
+
+  ngOnInit(): void {
+    this.muscleGroupService.getAll();
+    this.exerciseService.getAll();
   }
 }

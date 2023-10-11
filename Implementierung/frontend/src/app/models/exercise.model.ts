@@ -6,5 +6,5 @@ export interface Exercise {
   name: string;
   description: string;
   videoLink: string;
-  muscleGroup: string;
+  muscleGroups: string;
 }
