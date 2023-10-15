@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Set extends Model
 {
-    protected $table = 'exercises';
+    protected $table = 'sets';
 
     protected $fillable = [
-        'wight',
+        'weight',
         'duration',
-        'reputations',
+        'reps',
         'rpe',
         'break',
         'order',
@@ -25,7 +25,7 @@ class Set extends Model
         return $this->belongsTo(Exercise::class, 'exercise_id');
     }
 
-    public function schedule(): BelongsTo {
-        return $this->belongsTo(Schedule::class, 'schedule_id');
-    }
+//    public function schedule(): BelongsTo {
+//        return $this->belongsTo(Schedule::class, 'schedule_id');
+//    }
 }

@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->integer("weight")->nullable;
-            $table->integer("duration")->nullable;
-            $table->integer("reputations")->nullable;
+            $table->integer("weight")->nullable();
+            $table->integer("duration")->nullable();
+            $table->integer("reps")->nullable();
             $table->integer("rpe");
-            $table->integer("break");
+            $table->integer("break")->nullable();
             $table->integer("order");
 
             $table->unsignedBigInteger("schedule_id");

@@ -14,7 +14,9 @@ class Exercise extends Model
         'name',
         'video_link',
         'type',
-        'description'
+        'description',
+
+        'sets'
     ];
 
     protected $casts = [

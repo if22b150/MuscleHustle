@@ -22,7 +22,7 @@
 
         <ng-container matColumnDef="client">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Klient </th>
-          <td mat-cell *matCellDef="let element"> {{element.clientId}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.client.firstname}} {{element.client.lastname}} </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
@@ -32,13 +32,15 @@
 
         <ng-container matColumnDef="exercises">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Übungen </th>
-          <td mat-cell *matCellDef="let element"> {{element.exercises}} </td>
+          <td mat-cell *matCellDef="let element">
+            <span *ngFor="let e of element.exercises; let i = index">{{e.sets.length + " x " + e.exercise.name}}{{i < element.exercises.length-1 ? ", " : ""}}</span>
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="enabledForClient">
+        <ng-container matColumnDef="visible">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Öffentlich </th>
           <td mat-cell *matCellDef="let element">
-            <mat-checkbox [checked]="element.enabledForClient" (change)="toggleEnabled($event.checked, element.id)">
+            <mat-checkbox [checked]="element.visible" (change)="toggleEnabled($event.checked, element.id)">
             </mat-checkbox>
           </td>
         </ng-container>

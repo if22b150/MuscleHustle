@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SidenavService} from "../services/sidenav.service";
 import {MuscleGroupService} from "../services/muscle-group.service";
 import {ExerciseService} from "../services/exercise.service";
+import {ScheduleService} from "../services/schedule.service";
 
 @Component({
   selector: 'app-frontend-coach',
@@ -13,7 +14,8 @@ export class FrontendCoachComponent implements OnInit{
 
   constructor(public sidenavService: SidenavService,
               private muscleGroupService: MuscleGroupService,
-              private exerciseService: ExerciseService) {
+              private exerciseService: ExerciseService,
+              private scheduleService: ScheduleService) {
   }
 
   onClick() {
@@ -25,5 +27,6 @@ export class FrontendCoachComponent implements OnInit{
   ngOnInit(): void {
     this.muscleGroupService.getAll();
     this.exerciseService.getAll();
+    this.scheduleService.getAll();
   }
 }

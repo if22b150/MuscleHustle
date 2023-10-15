@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Schedule extends Model
 {
-    protected $table = 'exercises';
+    protected $table = 'schedules';
 
     protected $fillable = [
         'name',
@@ -22,7 +22,7 @@ class Schedule extends Model
     ];
 
     public function sets(): HasMany {
-        return $this->hasMany(Set::class, 'exercise_id', 'id');
+        return $this->hasMany(Set::class, 'schedule_id', 'id');
     }
 
     public function client(): HasOne {
@@ -31,5 +31,32 @@ class Schedule extends Model
 
     public function coach(): HasOne {
         return $this->hasOne(User::class, 'id', 'coach_user_id');
+    }
+
+    public function getExercises() {
+        if(empty($this->sets))
+            return [];
+
+        $exercises = [];
+        $exerciseSets = [];
+        $currentExercise = null;
+        foreach ($this->sets as $set) {
+            if(!$currentExercise) {
+                $currentExercise = $set->exercise;
+//                $exercises[] = ["id" => $set->exercise->id, "name" => $set->exercise->name];
+            }
+            if($currentExercise->id == $set->exercise->id)
+                $exerciseSets[] = $set->withoutRelations();
+            else {
+                $exercises[] = ["exercise" => $currentExercise, "sets" => $exerciseSets];
+
+                $exerciseSets = [];
+                $exerciseSets[] = $set->withoutRelations();
+                $currentExercise->id = $set->exercise->id;
+            }
+        }
+        $exercises[] = ["exercise" => $set->exercise, "sets" => $exerciseSets];
+
+        return $exercises;
     }
 }

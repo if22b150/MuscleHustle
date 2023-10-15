@@ -27,5 +27,17 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->markEmailAsVerified();
         $user->save();
+
+        $user = new User([
+            'firstname' => 'Emil',
+            'lastname' => 'Auer',
+            'phone' => '06601234567',
+            'gender' => EGender::MALE,
+            'email' => 'e.auer@itkaufmann.at',
+            'password' => Hash::make('123456'),
+            'role' => ERole::CLIENT,
+        ]);
+        $user->markEmailAsVerified();
+        $user->save();
     }
 }
