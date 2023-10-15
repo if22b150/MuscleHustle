@@ -8,7 +8,6 @@ import {MaterialModule} from "./modules/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { TopBarComponent } from './frontend-coach/top-bar/top-bar.component';
 import {AuthInterceptorService} from "./services/auth-interceptor.service";
 
 @NgModule({

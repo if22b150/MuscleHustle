@@ -1,130 +1,177 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatSort} from "@angular/material/sort";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "../../../services/message.service";
 import {Router} from "@angular/router";
-
-export interface Schedule {
-  id: number;
-  order: number;
-  name: string;
-  sets: number;
-  note: string;
-}
-
-const ELEMENT_DATA: Schedule[] = [
-  {id: 1, order: 1, name: 'Übungsname 1', sets: 1, note: 'Notiz 1'},
-  {id: 2, order: 2, name: 'Übungsname 2', sets: 2, note: 'Notiz 2'},
-  {id: 3, order: 3, name: 'Übungsname 3', sets: 3, note: 'Notiz 3'},
-  {id: 4, order: 4, name: 'Übungsname 4', sets: 4, note: 'Notiz 4'},
-  {id: 5, order: 5, name: 'Übungsname 5', sets: 1, note: 'Notiz 5'},
-  {id: 6, order: 6, name: 'Übungsname 6', sets: 2, note: 'Notiz 6'},
-  {id: 7, order: 7, name: 'Übungsname 7', sets: 3, note: 'Notiz 7'},
-  {id: 8, order: 8, name: 'Übungsname 8', sets: 4, note: 'Notiz 8'},
-  {id: 9, order: 9, name: 'Übungsname 9', sets: 5, note: 'Notiz 9'}
-];
-
-export class Exercise {
-  private name: string;
-  private description: string;
-  private muscleGroup: Array<string>;
-  private videoLink: string;
-
-  constructor(name: string, description: string, muscleGroup: Array<string>, videoLink: string) {
-    this.name = name;
-    this.description = description;
-    this.muscleGroup = muscleGroup;
-    this.videoLink = videoLink;
-  }
-}
+import {ExerciseService} from "../../../services/exercise.service";
+import {ClientService} from "../../../services/client.service";
+import {SetModel} from "../../../models/set.model";
+import {Exercise} from "../../../models/exercise.model";
+import {ScheduleService} from "../../../services/schedule.service";
 
 @Component({
   selector: 'app-schedule-create',
   templateUrl: './schedule-create.component.html',
   styleUrls: ['./schedule-create.component.scss']
 })
-export class ScheduleCreateComponent {
-  displayedColumns: string[] = ['order', 'name', 'sets', 'note', 'delete'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+export class ScheduleCreateComponent implements OnInit {
+  displayedColumns: string[] = ['up', 'down', 'exercise', 'sets', 'edit', 'delete'];
+  dataSource = new MatTableDataSource();
   scheduleForm: FormGroup;
-  hideRequiredControl = new FormControl(false);
-  floatLabelControl = new FormControl('auto');
-  exercise: Exercise;
-
-  @ViewChild(MatSort) sort: MatSort;
+  exercisesForm: FormGroup;
+  exercises: {index: number, exercise: Exercise, sets: SetModel[]}[] = [];
 
   constructor(private fb: FormBuilder,
               private messageService: MessageService,
+              public exerciseService: ExerciseService,
+              public clientService: ClientService,
+              private scheduleService: ScheduleService,
               private router: Router) {
-    this.scheduleForm = fb.group({
-      hideRequired: this.hideRequiredControl,
-      floatLabel: this.floatLabelControl,
-      sets: this.fb.array([], Validators.required),
-      scheduleName: [null, [Validators.required]],
+  }
+
+  ngOnInit() {
+    this.scheduleForm = this.fb.group({
+      name: [null, [Validators.required]],
       client: [null, [Validators.required]],
-      clientEnabled: [null, [Validators.required]],
+      visible: [false, [Validators.required]],
+    });
+
+    this.exercisesForm = this.fb.group({
       exercise: [null, [Validators.required]],
-      exerciseNote: [null, [Validators.required]],
-      exerciseOrderNumber: [null, [Validators.required]]
+      sets: this.fb.array([]),
     });
 
     this.initializeSets();
   }
 
-  onSubmit() {
-    if(this.scheduleForm.valid) {
-      let schedule = this.scheduleForm.value;
-      let sets = this.scheduleForm.value.sets;
-      console.log(schedule);
-      console.log(sets);
-      this.createSchedule();
-      this.router.navigateByUrl('../');
-    }
-  }
-
   initializeSets() {
-    this.sets.push(this.newSetsFormGroup());
+    this.sets.push(this.newSetFormGroup());
   }
 
-  get sets(): FormArray {
-    return this.scheduleForm.get("sets") as FormArray
-  }
-
-  newSetsFormGroup(): FormGroup {
+  newSetFormGroup(): FormGroup {
     return this.fb.group({
-      weight: [null, [Validators.required, Validators.min(0.1)]],
-      durationTime: [null, [Validators.required, Validators.min(1)]],
-      repNumber: [null, [Validators.required, Validators.min(1)]],
-      rpe: [null, [Validators.required, Validators.min(1)]],
-      breakTime: [null, [Validators.required, Validators.min(0)]],
-      setOrderNumber: [null, [Validators.required, Validators.min(1)]]
+      weight: [null, [Validators.min(0.5)]],
+      time: [null, [Validators.min(1)]],
+      reps: [null, [Validators.required, Validators.min(1)]],
+      rpe: [null, [Validators.required, Validators.min(1), Validators.max(10)]],
+      break: [null, [Validators.min(0)]]
     })
   }
 
-  addSets() {
-    this.sets.push(this.newSetsFormGroup());
+  addSet() {
+    this.sets.push(this.newSetFormGroup());
   }
 
   removeSet(i: number) {
     this.sets.removeAt(i);
   }
 
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  get sets(): FormArray {
+    return this.exercisesForm.get('sets') as FormArray;
   }
 
   createSchedule() {
-    this.messageService.openSnackBar('Trainingsplan wurde angelegt', 'ok');
-    //this.exercise = new Exercise('Mountain Climbers', '', ['Bauch', 'Po'], 'https://www.youtube.com/watch?v=nmwgirgXLYM');
+    if (this.scheduleForm.invalid || this.exercises.length == 0)
+      return;
+
+    const scheduleData = this.scheduleForm.value;
+    const exercisesData = this.exercisesForm.value;
+
+    let sets = [];
+    let count = 0;
+    this.exercises.forEach(e => {
+      e.sets.forEach(s => {
+        sets.push({
+          exerciseId: e.exercise.id,
+          order: count,
+          weight: s.weight,
+          time: s.time,
+          reps: s.reps,
+          rpe: s.rpe,
+          break: s.break,
+        })
+        count++;
+      })
+    });
+
+    this.scheduleService.create(
+      scheduleData.name,
+      scheduleData.visible,
+      scheduleData.client.id,
+      sets
+    ).subscribe({
+      next: (s) => {
+        this.messageService.openSnackBar('Trainingsplan wurde erstellt.', 'Ok');
+        this.router.navigate(['../']);
+        this.scheduleService.getAll();
+      }
+    })
   }
 
-  delete(id: number) {
-    this.messageService.openSnackBar('Übung ' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
+  removeExercise(index: number) {
+    let e = this.exercises.at(index);
+    this.exercises = this.exercises.filter(e => e.index != index);
+    this.updateExercises();
+    this.messageService.openSnackBar('Übung ' + e.exercise.name + ' wurde entfernt.', 'Ok');
   }
 
-  createExercise() {
-    this.messageService.openSnackBar('Übung wurde angelegt', 'ok');
+  edit(index: number) {
+    let e = this.exercises.at(index);
+    this.messageService.openSnackBar('Übung ' + e.exercise.name + ' kann leider nicht mehr bearbeitet werden', 'Ok');
+  }
+
+  addExercise() {
+    if(this.exercisesForm.invalid)
+      return;
+
+    let e = {
+      index: this.exercises.length,
+      exercise: this.exercise.value,
+      sets: this.sets.value
+    };
+    this.exercises.push(e);
+    this.updateExercises();
+
+    this.messageService.openSnackBar('Übung ' + e.exercise.name + ' wurde hinzugefügt.', 'Ok');
+    this.exercise.setValue(null);
+    this.sets.reset();
+  }
+
+  moveUp(index: number): void {
+    if (index > 0) {
+      const temp = this.exercises[index];
+      this.exercises[index] = this.exercises[index-1];
+      this.exercises[index - 1] = temp;
+      this.updateExercises();
+    }
+  }
+
+  moveDown(index: number): void {
+    if (index < this.exercises.length - 1) {
+      const temp = this.exercises[index];
+      this.exercises[index] = this.exercises[index + 1];
+      this.exercises[index + 1] = temp;
+      this.updateExercises();
+    }
+  }
+
+  updateExercises() {
+    this.exercises.forEach((e, i) => {
+      e.index = i;
+    });
+    this.dataSource = new MatTableDataSource(this.exercises);
+  }
+
+  get name(): AbstractControl {
+    return this.scheduleForm.get('name');
+  }
+  get visible(): AbstractControl {
+    return this.scheduleForm.get('visible');
+  }
+  get client(): AbstractControl {
+    return this.scheduleForm.get('client');
+  }
+  get exercise(): AbstractControl {
+    return this.exercisesForm.get('exercise');
   }
 }

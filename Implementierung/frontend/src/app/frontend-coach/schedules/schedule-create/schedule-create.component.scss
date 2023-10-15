@@ -28,8 +28,11 @@ mat-card-content .mat-radio-button {
 }
 
 .exercise-card {
-  padding: 20px;
   background-color: #fff;
+
+  mat-card-header.exercise-card-header {
+    background-color: var(--musclehustle-dark);
+  }
 
   .mat-card-header .mat-card-title span {
     font-size: 18px;

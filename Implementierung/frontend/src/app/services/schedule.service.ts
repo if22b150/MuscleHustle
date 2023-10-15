@@ -36,7 +36,7 @@ export class ScheduleService {
       });
   }
 
-  public create(name: string, visible: boolean, clientId: number, sets: SetModel[]) {
+  public create(name: string, visible: boolean, clientId: number, sets: any[]) {
     return this._http.post<Schedule>(environment.coachApiUrl + 'schedules', {name, visible, clientId, sets});
   }
 
