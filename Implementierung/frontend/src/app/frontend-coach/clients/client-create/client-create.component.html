@@ -1,6 +1,65 @@
-<p>Create coming soon...</p>
-<button mat-flat-button
-        class="create-button"
-        routerLink="../">
-  Zurück
-</button>
+<div class="primary-card-container">
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <mat-card-title>
+        <h1>KlientIn anlegen</h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" id="clientForm">
+        <div fxLayout='row' class="flex-wrap gap-4">
+          <mat-form-field fxFlex="100%" appearance="outline"
+                          [hideRequiredMarker]="hideRequiredControl.value"
+                          [floatLabel]="floatLabelControl.value">
+            <mat-label>Geschlecht</mat-label>
+            <mat-select required formControlName="gender">
+              <mat-option value="female">Weiblich</mat-option>
+              <mat-option value="male">Männlich</mat-option>
+              <mat-option value="divers">Divers</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100%" appearance="outline" [floatLabel]="floatLabelControl.value">
+            <mat-label>Vorname</mat-label>
+            <input matInput type="text" required formControlName="firstname">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100%" appearance="outline" [floatLabel]="floatLabelControl.value">
+            <mat-label>Nachname</mat-label>
+            <input matInput type="text" required formControlName="lastname">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100%" appearance="outline" [floatLabel]="floatLabelControl.value">
+            <mat-label>Telefonnummer</mat-label>
+            <input matInput type="text" required formControlName="phone">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100%" appearance="outline" [floatLabel]="floatLabelControl.value">
+            <mat-label>E-Mail</mat-label>
+            <input matInput type="email" required formControlName="email">
+          </mat-form-field>
+        </div>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
+      <button mat-flat-button
+              class="primary-button"
+              [routerLink]="['../']">
+        Zurück
+      </button>
+      <button mat-flat-button
+              class="create-button"
+              type="submit"
+              form="clientForm"
+              color="primary"
+              [disabled]="!clientForm.valid"
+      >
+        KlientIn erstellen
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

@@ -12,6 +12,7 @@ import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseCreateComponent } from './exercises/exercise-create/exercise-create.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientCreateComponent } from './clients/client-create/client-create.component';
+import { PasswordPdfComponent } from './clients/client-create/password-pdf/password-pdf.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ClientCreateComponent } from './clients/client-create/client-create.com
     ExercisesComponent,
     ExerciseCreateComponent,
     ClientsComponent,
-    ClientCreateComponent
+    ClientCreateComponent,
+    PasswordPdfComponent
   ],
   imports: [
     FrontendCoachRoutingModule,

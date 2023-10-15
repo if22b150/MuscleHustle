@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\ERole;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
@@ -31,14 +32,26 @@ class UserRepository implements UserRepositoryInterface
         return User::where($column, $value)->first();
     }
 
-    public function create(array $data)
+    public function create(array $data, bool $withPassword = false)
     {
-        $user = new User([
-            'name' => $data['name'],
+        $userData = [
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'gender' => $data['gender'],
             'role' => $data['role']
-        ]);
+        ];
+        if($withPassword)
+            $userData['password'] = Hash::make($data['password']);
+        if($data['role'] == ERole::CLIENT)
+            $userData['coach_user_id'] = $data['coach_user_id'];
+
+        $user = new User($userData);
+
+        // Just for clients
+        $user->markEmailAsVerified();
+
         return $user->save() ? $user : null;
     }
 

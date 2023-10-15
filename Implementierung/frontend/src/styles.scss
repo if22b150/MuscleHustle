@@ -50,6 +50,13 @@ p, span, div {
   color: var(--musclehustle-dark);
 }
 
+.mat-mdc-unelevated-button:not(:disabled).mat-primary {
+  color: #fff;
+  span {
+    color: #fff;
+  }
+}
+
 a {
   color: var(--musclehustle-primary);
   text-decoration: none;

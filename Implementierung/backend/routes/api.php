@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,5 @@ Route::name('coach.')->middleware(['api', 'auth:sanctum', 'auth.coach'])->prefix
     Route::apiResource('muscle-groups', MuscleGroupController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('exercises', ExerciseController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('schedules', ScheduleController::class)->only(['index', 'store', 'destroy']);
+    Route::apiResource('clients', UserController::class)->only(['index', 'store', 'destroy']);
 });

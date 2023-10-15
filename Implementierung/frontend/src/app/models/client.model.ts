@@ -5,13 +5,6 @@ export interface Client {
   firstname: string;
   lastname: string;
   gender: EGenderType;
-  birthdate: string;
-  phoneNumber: string;
+  phone: string;
   email: string;
-  registerDate: string;
-  street: string;
-  streetNumber: string;
-  zip: string;
-  country: string;
-  countryCode: string;
 }

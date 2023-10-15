@@ -27,7 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
         'email',
         'password',
-        'role'
+        'role',
+
+        'coach_user_id'
     ];
 
     /**
@@ -51,4 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'role' => ERole::class,
         'gender' => EGender::class,
     ];
+
+    public function coach()
+    {
+        return $this->belongsTo('User', 'coach_user_id');
+    }
+
+    public function clients()
+    {
+        return $this->hasMany('User', 'coach_user_id');
+    }
 }

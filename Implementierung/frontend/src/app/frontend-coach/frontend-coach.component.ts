@@ -3,6 +3,7 @@ import {SidenavService} from "../services/sidenav.service";
 import {MuscleGroupService} from "../services/muscle-group.service";
 import {ExerciseService} from "../services/exercise.service";
 import {ScheduleService} from "../services/schedule.service";
+import {ClientService} from "../services/client.service";
 
 @Component({
   selector: 'app-frontend-coach',
@@ -15,7 +16,8 @@ export class FrontendCoachComponent implements OnInit{
   constructor(public sidenavService: SidenavService,
               private muscleGroupService: MuscleGroupService,
               private exerciseService: ExerciseService,
-              private scheduleService: ScheduleService) {
+              private scheduleService: ScheduleService,
+              private clientService: ClientService) {
   }
 
   onClick() {
@@ -28,5 +30,6 @@ export class FrontendCoachComponent implements OnInit{
     this.muscleGroupService.getAll();
     this.exerciseService.getAll();
     this.scheduleService.getAll();
+    this.clientService.getAll();
   }
 }

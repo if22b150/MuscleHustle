@@ -1,0 +1,19 @@
+mat-card-content .mat-form-field + .mat-form-field {
+  margin-left: 20px;
+}
+
+mat-card-content .mat-form-field {
+  min-width: 250px;
+}
+
+mat-card-content form {
+  padding: 15px;
+}
+
+mat-card-content form > * {
+  margin: 5px 0;
+}
+
+.full-width-form {
+  width: 100%;
+}
