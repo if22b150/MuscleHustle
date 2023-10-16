@@ -12,7 +12,7 @@
       </div>
     </mat-card-header>
 
-    <mat-card-content>
+    <mat-card-content class="pt-2">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="firstname">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Vorname </th>
@@ -26,7 +26,7 @@
 
         <ng-container matColumnDef="gender">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Geschlecht </th>
-          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+          <td mat-cell *matCellDef="let element"> {{genderTypeCast(element.gender)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="phoneNumber">

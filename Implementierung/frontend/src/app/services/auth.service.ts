@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, finalize, Observable, take} from "rxjs";
 import {ERole, User} from "../models/user.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,8 @@ export class AuthService {
     return this._user.value != null && this._user.value.verified && this._user.value.token != null;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
     let savedUser = JSON.parse(localStorage.getItem('user'));
     this._user = new BehaviorSubject<User>(savedUser);
   }
@@ -67,42 +69,19 @@ export class AuthService {
     })
   }
 
-  // public logout(confirm: boolean = true): void {
-    // this.modalService
-    //   .open(ConfirmModalComponent, {
-    //     data: {
-    //       name: 'LOGOUT',
-    //       description: 'ARE_YOU_SURE_YOU_WANT_TO_LOGOUT',
-    //       icon: 'fas fa-sign-out',
-    //       confirmModalType: EConfirmModalType.DANGER
-    //     }
-    //   })
-    //   .onClose.subscribe((confirm) => {
-    //   if (confirm) {
-    //
-    //     this.loading = true;
-  //
-  //       localStorage.clear();
-  //       sessionStorage.clear();
-  //
-  //       this.http.post<any>(environment.authApiUrl + 'logout', {})
-  //         .pipe(finalize(() => {
-  //           this.loading = false;
-  //         })).subscribe({
-  //
-  //         next: () => {
-  //           console.log('SUCESSFULLY LOGGED OUT'); // TODO: IMPLEMENT ALERT
-  //           this.updateUser(null);
-  //           window.location.href = '';
-  //
-  //         }, error: (error) => {
-  //           console.log(error); // TODO: IMPLEMENT ALERT
-  //         }
-  //
-  //       })
-  //   //   }
-  //   // })
-  // }
+  public logout(): void {
+    // log user out on server
+    this.http.post<any>(environment.authApiUrl + 'logout', {})
+      .pipe(
+        take(1),
+        finalize(() => {
+          // log user out in browser
+          this.router.navigate(['login']);
+          localStorage.clear();
+          sessionStorage.clear();
+          this._user.next(null);
+        })).subscribe();
+  }
 
 
 }

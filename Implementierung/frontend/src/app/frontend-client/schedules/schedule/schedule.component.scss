@@ -1,0 +1,16 @@
+.set-break {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .stroke {
+    flex-grow: 1;
+    border-style: inset;
+    border-width: 1px;
+  }
+
+  .set-break-text {
+    margin: 0 1rem 2px;
+  }
+}

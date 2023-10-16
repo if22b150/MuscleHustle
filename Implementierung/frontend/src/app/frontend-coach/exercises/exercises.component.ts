@@ -4,6 +4,7 @@ import {MessageService} from "../../services/message.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ExerciseService} from "../../services/exercise.service";
+import {exerciseTypeCast} from "../../models/enum/exercisetype.model";
 
 @Component({
   selector: 'app-exercises',
@@ -41,4 +42,6 @@ export class ExercisesComponent {
         }
       })
   }
+
+  protected readonly exerciseTypeCast = exerciseTypeCast;
 }

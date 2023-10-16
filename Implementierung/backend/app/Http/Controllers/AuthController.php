@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
     public function __construct(protected UserRepositoryInterface $userRepository) {}
@@ -29,6 +30,12 @@ class AuthController extends Controller
         if ($token && (!auth('sanctum')->check() || auth('sanctum')->user()->id != $user->id))
             return response()->json(['Token invalid'], 401);
 
-        return new UserResource($user, $token);
+        return new UserResource($user, $token, true);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'Der Benutzer wurde erfolgreich abgemeldet.']);
     }
 }

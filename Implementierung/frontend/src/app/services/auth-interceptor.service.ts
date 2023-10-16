@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AuthService} from "./auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpRequest} from "@angular/common/http";
 import {catchError, Observable, of, throwError} from "rxjs";
 import {MessageService} from "./message.service";
@@ -15,7 +15,7 @@ export class AuthInterceptorService {
   }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
-    if (err.status === 401 || err.status === 403) {
+    if ((err.status === 401 || err.status === 403) && this.router.url !== "/auth/login") {
       this.messageService.openSnackBar("Authentifizierung fehlgeschlagen. Melde dich bitte an.", "Ok");
       let u = this.authService.user;
       u.token = null;

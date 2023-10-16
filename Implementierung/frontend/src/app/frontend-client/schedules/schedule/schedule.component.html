@@ -1,0 +1,93 @@
+<div class="primary-card-container" *ngIf="schedule">
+  <div class="flex justify-content-center">
+    <mat-card>
+      <mat-card-header class="card-header flex flex-wrap gap-4 justify-content-between align-items-center">
+        <mat-card-title>
+          <h1>{{schedule.name}}</h1>
+        </mat-card-title>
+        <h3 class="m-0">{{schedule.exercises.length}} Übungen</h3>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <mat-stepper orientation="vertical" [linear]="false" #stepper>
+          <mat-step *ngFor="let exercise of schedule.exercises">
+            <ng-template matStepLabel><h2 class="m-0 text-dark">{{exercise.exercise.name}}</h2></ng-template>
+
+            <iframe [src]="transformVideo(exercise.exercise.videoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="max-width: 100%; height: auto" *ngIf="exercise.exercise.videoLink"></iframe>
+
+            <div *ngIf="exercise.exercise.description">
+              <h2 class="m-0 mb-2 mt-2 text-dark" style="font-size: 1.35em">Erklärung</h2>
+
+              <p [innerHtml]="transformDescription(exercise.exercise.description)"></p>
+            </div>
+
+            <h2 class="m-0 mb-2 mt-2 text-dark" style="font-size: 1.35em">Sätze</h2>
+
+            <hr>
+            <div *ngFor="let set of exercise.sets">
+
+              <mat-grid-list [cols]="getSetCols(set)" rowHeight="4:1" (window:resize)="handleSize($event)">
+                <mat-grid-tile *ngIf="set.weight">
+                  <div class="flex flex-column align-items-center">
+                    <span class="text-bold">Gewicht</span>
+                    <span>{{set.weight}}kg</span>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile *ngIf="set.reps">
+                  <div class="flex flex-column align-items-center">
+                    <span class="text-bold">Reps</span>
+                    <span>{{set.reps}}</span>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile *ngIf="set.time">
+                  <div class="flex flex-column align-items-center">
+                    <span class="text-bold">Dauer</span>
+                    <span>{{set.time}} sek.</span>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile *ngIf="set.rpe">
+                  <div class="flex flex-column align-items-center">
+                    <span class="text-bold">RPE</span>
+                    <span>{{set.rpe}}</span>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+
+              <hr *ngIf="!set.break || set.break == 0">
+              <div *ngIf="set.break || set.break > 0" class="set-break my-2">
+                <div class="stroke"></div>
+                <div class="set-break-text"><span>{{set.break}} sek. Pause</span></div>
+                <div class="stroke"></div>
+              </div>
+            </div>
+
+            <div class="flex justify-content-center gap-2 mt-4">
+              <button mat-flat-button matStepperPrevious>Zurück</button>
+              <button mat-flat-button matStepperNext color="primary">Weiter</button>
+            </div>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel><h2 class="m-0 text-dark">Ende</h2></ng-template>
+
+            <div class="text-center mt-2">
+              <h3 class="m-0 mb-2 text-dark">Starkes Training! Und vergiss nicht:</h3>
+              <h2 class="m-0 mb-2 text-dark">Keep up the HUSTLE!</h2>
+              <img src="assets/logo/LogoRed.png" width="100" alt="Logo">
+            </div>
+
+            <div class="flex justify-content-center gap-2 mt-4">
+              <button mat-flat-button matStepperNext color="primary" (click)="finish()">Abschließen</button>
+            </div>
+          </mat-step>
+
+        </mat-stepper>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

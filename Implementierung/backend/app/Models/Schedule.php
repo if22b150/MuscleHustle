@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ExerciseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -48,14 +49,14 @@ class Schedule extends Model
             if($currentExercise->id == $set->exercise->id)
                 $exerciseSets[] = $set->withoutRelations();
             else {
-                $exercises[] = ["exercise" => $currentExercise, "sets" => $exerciseSets];
+                $exercises[] = ["exercise" => new ExerciseResource($currentExercise), "sets" => $exerciseSets];
 
                 $exerciseSets = [];
                 $exerciseSets[] = $set->withoutRelations();
                 $currentExercise->id = $set->exercise->id;
             }
         }
-        $exercises[] = ["exercise" => $set->exercise, "sets" => $exerciseSets];
+        $exercises[] = ["exercise" => new ExerciseResource($set->exercise), "sets" => $exerciseSets];
 
         return $exercises;
     }

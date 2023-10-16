@@ -1,0 +1,31 @@
+mat-toolbar {
+  background-color: var(--musclehustle-primary);
+}
+
+img {
+  height: 40px;
+}
+
+.user-icon {
+  color: var(--musclehustle-grey-light);
+}
+
+.username {
+  color: var(--musclehustle-grey-light);
+}
+
+@media (max-width: 576px) {
+  mat-toolbar {
+    padding: 5px;
+  }
+
+  img {
+    height: 30px;
+  }
+
+  .user-icon {
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+  }
+}

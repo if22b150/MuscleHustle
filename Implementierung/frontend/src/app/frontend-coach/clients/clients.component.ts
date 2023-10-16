@@ -5,6 +5,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ClientService} from "../../services/client.service";
 import {filter} from "rxjs";
+import {genderTypeCast} from "../../models/enum/gendertype.model";
 
 @Component({
   selector: 'app-clients',
@@ -41,4 +42,6 @@ export class ClientsComponent implements OnInit{
   delete(id: number) {
     this.messageService.openSnackBar('Klient ' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
   }
+
+    protected readonly genderTypeCast = genderTypeCast;
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MessageService} from "../../services/message.service";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit{
   submitted: boolean = false;
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -35,7 +37,14 @@ export class LoginComponent implements OnInit{
     ).then(
       () => {
       }, (reject: HttpErrorResponse) => {
+        console.log(reject.message)
         // TODO: Error alert
+        if(reject.error[0] == "User not found.")
+          this.messageService.openSnackBar('Es existiert kein Account mit dieser E-Mail Adresse.', "Ok");
+        else if(reject.error[0] == "Credentials incorrect")
+          this.messageService.openSnackBar('E-Mail Adresse und Passwort stimmen nicht überein.', "Ok");
+        else
+          this.messageService.openSnackBar('Login fehlgeschlagen. Überprüfen Sie Ihre Eingaben.', "Ok");
       }
     )
 

@@ -1,0 +1,24 @@
+<mat-drawer-container class="example-container mat-typography" autosize [ngClass]="{'expanded': (sidenavService.isExpanded$|async)}">
+  <mat-drawer #drawer mode="side" disableClose="true" opened="true">
+    <div class="logo-container">
+      <img [src]="(sidenavService.isExpanded$|async) ? '../../../assets/logo/LogoMuscleHustle.PNG' : '../../../assets/logo/LogoRed.png'">
+    </div>
+
+
+    <mat-nav-list>
+      <mat-list-item routerLink="schedules" routerLinkActive="active" (click)="onClick()">
+        <mat-icon matListItemIcon class="mr-4">event</mat-icon>
+        <a matListItemTitle>MuscleHustles</a>
+      </mat-list-item>
+      <mat-list-item routerLink="settings" routerLinkActive="active" (click)="onClick()">
+        <mat-icon matListItemIcon class="mr-4">settings</mat-icon>
+        <a matListItemTitle>Einstellungen</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content class="sidenav-content">
+    <app-top-bar></app-top-bar>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

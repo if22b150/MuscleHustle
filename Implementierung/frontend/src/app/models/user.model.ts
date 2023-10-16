@@ -10,6 +10,8 @@ export interface User extends AModel {
   verified: boolean;
   token?: string;
   role: ERole;
+
+  coach?: User;
 }
 
 export enum ERole {

@@ -3,8 +3,6 @@ import {BehaviorSubject, catchError, Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Schedule} from "../models/schedule.model";
 import {environment} from "../../environments/environment";
-import {Exercise} from "../models/exercise.model";
-import {SetModel} from "../models/set.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +28,14 @@ export class ScheduleService {
 
   public getAll() {
     this._http.get<Schedule[]>(environment.coachApiUrl + 'schedules', {})
+      .subscribe((data: Schedule[]) => {
+        catchError(this.handleError<Schedule[]>('getSchedules', []))
+        this._schedules.next(data);
+      });
+  }
+
+  public clientGetAll() {
+    this._http.get<Schedule[]>(environment.clientApiUrl + 'schedules', {})
       .subscribe((data: Schedule[]) => {
         catchError(this.handleError<Schedule[]>('getSchedules', []))
         this._schedules.next(data);

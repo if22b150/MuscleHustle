@@ -164,16 +164,17 @@ mat-drawer-container {
   table {
     width: 100%;
 
-    tr:nth-child(odd) {
+    tr:nth-child(even) {
       background: var(--musclehustle-grey-light);
     }
 
-    tr:nth-child(even) {
+    tr:nth-child(odd) {
       background: #fff;
     }
 
-    tr.mat-header-row {
+    tr.mat-mdc-header-row {
       background-color: var(--musclehustle-primary);
+      color: #fff;
     }
   }
 }
@@ -183,3 +184,21 @@ simple-snack-bar span {
   color: var(--musclehustle-grey-light);
 }
 
+.mat-step-icon-content span {
+  color: #fff !important;
+}
+.mat-step-header-edit-icon {
+  display: none;
+}
+.text-dark {
+  color: var(--musclehustle-dark) !important;
+}
+.text-bold {
+  font-weight: bold;
+}
+.mat-step-label {
+  white-space: normal !important;
+}
+.text-center {
+  text-align: center;
+}

@@ -7,13 +7,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class UserResource extends JsonResource
 {
     private ?string $bearerToken;
-    private ?bool $registration;
+    private ?bool $createToken;
 
-    public function __construct($resource, ?string $bearerToken = null, ?bool $registration = null)
+    public function __construct($resource, ?string $bearerToken = null, ?bool $createToken = null)
     {
         parent::__construct($resource);
         $this->bearerToken = $bearerToken;
-        $this->registration = $registration;
+        $this->createToken = $createToken;
     }
 
     public function toArray($request) {
@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'role' => $this->role
         ];
 
-        if(!$this->registration)
+        if($this->createToken)
             $result['token'] = $this->bearerToken ?? $this->createToken('token', [$this->role])->plainTextToken;
 
         return $result;

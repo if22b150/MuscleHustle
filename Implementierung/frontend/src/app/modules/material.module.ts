@@ -16,6 +16,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   imports: [],
@@ -36,7 +38,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatAutocompleteModule,
     MatChipsModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatStepperModule,
+    MatGridListModule
   ],
   providers: []
 } )

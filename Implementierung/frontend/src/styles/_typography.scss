@@ -32,7 +32,7 @@ span {
   line-height: var(--heading-line-height);
 }
 
-h4 {
+mat-card h4 {
   font-family: var(--font-secondary) !important;
   color: var(--musclehustle-grey-light);
   margin-bottom: var(--space-xxs);
@@ -43,9 +43,13 @@ h4 {
   }
 }
 
-h1, h2, h3 {
+mat-card h1, mat-card h2, mat-card h3 {
   font-family: var(--font-secondary) !important;
   color: var(--musclehustle-grey-light) !important;
   margin-bottom: var(--space-xxs);
   line-height: var(--heading-line-height);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-secondary) !important;
 }
