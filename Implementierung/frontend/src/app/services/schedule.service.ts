@@ -46,6 +46,10 @@ export class ScheduleService {
     return this._http.post<Schedule>(environment.coachApiUrl + 'schedules', {name, visible, clientId, sets});
   }
 
+  public setVisibility(id: number, visible: boolean) {
+    return this._http.patch<Schedule>(environment.coachApiUrl + 'schedules/' + id + '/set-visibility', {visible});
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error("Error");

@@ -39,6 +39,7 @@
             mat-flat-button
             color="primary"
             type="submit"
+            [class.spinner]="loading" [disabled]="loading"
           >
             <mat-icon>login</mat-icon>
             Login

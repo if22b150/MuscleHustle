@@ -6,6 +6,7 @@ import {Client} from "../../../models/client.model";
 import {ClientService} from "../../../services/client.service";
 import {PasswordPdfComponent} from "./password-pdf/password-pdf.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-client-create',
@@ -17,6 +18,7 @@ export class ClientCreateComponent implements OnInit{
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
   client: Client;
+  loading: boolean;
 
   constructor(private fb: FormBuilder,
               private messageService: MessageService,
@@ -40,6 +42,8 @@ export class ClientCreateComponent implements OnInit{
   onSubmit() {
     let password = Math.random().toString(36).slice(-6);
     if(this.clientForm.valid) {
+      this.loading = true;
+
       this.clientService.create(
         this.firstname.value,
         this.lastname.value,
@@ -47,7 +51,9 @@ export class ClientCreateComponent implements OnInit{
         this.gender.value,
         this.phone.value,
         password
-      ).subscribe({
+      )
+        .pipe(finalize(() => this.loading = false))
+        .subscribe({
         next: (c) => {
           this.messageService.openSnackBar("KlienIn wurde erstellt.", "Ok");
           let ref = this.dialog.open(PasswordPdfComponent, {

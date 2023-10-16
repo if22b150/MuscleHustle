@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SetVisibilityRequest;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Resources\ScheduleResource;
 use App\Repositories\Interfaces\ScheduleRepositoryInterface;
@@ -43,5 +44,11 @@ class ScheduleController extends Controller
         }
 
         return new ScheduleResource($schedule);
+    }
+
+    public function setVisibility(SetVisibilityRequest $request, int $scheduleId)
+    {
+        $this->scheduleRepository->update(['id' => $scheduleId, 'data' => ['visible' => $request->boolean('visible')]]);
+        return new ScheduleResource($this->scheduleRepository->get($scheduleId));
     }
 }

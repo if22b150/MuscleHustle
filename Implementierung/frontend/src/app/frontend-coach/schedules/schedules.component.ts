@@ -34,15 +34,20 @@ export class SchedulesComponent implements OnInit {
       });
   }
 
-  toggleEnabled(checked: boolean, id: number) {
-    this.messageService.openSnackBar('Trainingsplan #' + id + ' ist nun ' + (checked ? 'öffentlich.' : 'nicht mehr öffentlich.'), 'Ok');
-  }
-
   edit(id: number) {
     this.messageService.openSnackBar('Trainingsplan #' + id + ' kann leider noch nicht editiert werden', 'Ok');
   }
 
   delete(id: number) {
     this.messageService.openSnackBar('Trainingsplan #' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
+  }
+
+  setVisibility(schedule: Schedule) {
+    this.scheduleService.setVisibility(schedule.id, !schedule.visible).subscribe({
+      next: (s) => {
+        this.scheduleService.getAll();
+        this.messageService.openSnackBar('Trainingsplan #' + s.id + ' ist nun ' + (s.visible ? 'öffentlich.' : 'nicht mehr öffentlich.'), 'Ok');
+      }
+    })
   }
 }

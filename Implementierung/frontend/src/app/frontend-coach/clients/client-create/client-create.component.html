@@ -55,7 +55,8 @@
               type="submit"
               form="clientForm"
               color="primary"
-              [disabled]="!clientForm.valid"
+              [disabled]="!clientForm.valid || loading"
+              [class.spinner]="loading"
       >
         KlientIn erstellen
       </button>

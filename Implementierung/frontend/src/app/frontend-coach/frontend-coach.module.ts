@@ -4,7 +4,7 @@ import {CommonModule} from "@angular/common";
 import {FrontendCoachComponent} from "./frontend-coach.component";
 import { SchedulesComponent } from './schedules/schedules.component';
 import {FrontendCoachRoutingModule} from "./frontend-coach-routing.module";
-import {MaterialModule} from "../modules/material.module";
+import {MaterialModule} from "../shared/modules/material.module";
 import {ExtendedModule, FlexLayoutModule} from "@angular/flex-layout";
 import {TopBarComponent} from "./top-bar/top-bar.component";
 import { ScheduleCreateComponent } from './schedules/schedule-create/schedule-create.component';

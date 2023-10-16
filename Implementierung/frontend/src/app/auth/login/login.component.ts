@@ -12,6 +12,7 @@ import {MessageService} from "../../services/message.service";
 export class LoginComponent implements OnInit{
   loginForm: FormGroup;
   submitted: boolean = false;
+  loading: boolean;
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
@@ -31,6 +32,8 @@ export class LoginComponent implements OnInit{
     if(this.loginForm.invalid)
       return;
 
+    this.loading = true;
+
     this.authService.login(
       this.email.value,
       this.password.value
@@ -46,6 +49,8 @@ export class LoginComponent implements OnInit{
         else
           this.messageService.openSnackBar('Login fehlgeschlagen. Überprüfen Sie Ihre Eingaben.', "Ok");
       }
+    ).finally(
+      () => this.loading = false
     )
 
   }

@@ -220,7 +220,8 @@
               form="scheduleForm"
               (click)="createSchedule()"
               color="primary"
-              [disabled]="!scheduleForm.valid || exercises.length == 0">
+              [class.spinner]="loading"
+              [disabled]="!scheduleForm.valid || exercises.length == 0 || loading">
         Trainingsplan erstellen
       </button>
     </mat-card-actions>

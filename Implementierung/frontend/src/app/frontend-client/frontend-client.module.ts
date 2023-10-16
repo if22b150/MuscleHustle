@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {MaterialModule} from "../modules/material.module";
+import {MaterialModule} from "../shared/modules/material.module";
 import {ExtendedModule, FlexLayoutModule} from "@angular/flex-layout";
 import {FrontendClientComponent} from "./frontend-client.component";
 import {FrontendClientRoutingModule} from "./frontend-client-routing.module";

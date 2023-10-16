@@ -81,7 +81,8 @@
               type="submit"
               form="exerciseForm"
               color="primary"
-              [disabled]="!exerciseForm.valid"
+              [disabled]="!exerciseForm.valid || loading"
+              [class.spinner]="loading"
       >
         Übung erstellen
       </button>

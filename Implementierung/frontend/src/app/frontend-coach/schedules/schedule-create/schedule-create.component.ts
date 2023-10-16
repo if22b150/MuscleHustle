@@ -8,6 +8,7 @@ import {ClientService} from "../../../services/client.service";
 import {SetModel} from "../../../models/set.model";
 import {Exercise} from "../../../models/exercise.model";
 import {ScheduleService} from "../../../services/schedule.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-schedule-create',
@@ -20,7 +21,7 @@ export class ScheduleCreateComponent implements OnInit {
   scheduleForm: FormGroup;
   exercisesForm: FormGroup;
   exercises: {index: number, exercise: Exercise, sets: SetModel[]}[] = [];
-
+  loading: boolean;
   constructor(private fb: FormBuilder,
               private messageService: MessageService,
               public exerciseService: ExerciseService,
@@ -74,6 +75,8 @@ export class ScheduleCreateComponent implements OnInit {
     if (this.scheduleForm.invalid || this.exercises.length == 0)
       return;
 
+    this.loading = true;
+
     const scheduleData = this.scheduleForm.value;
     const exercisesData = this.exercisesForm.value;
 
@@ -99,7 +102,9 @@ export class ScheduleCreateComponent implements OnInit {
       scheduleData.visible,
       scheduleData.client.id,
       sets
-    ).subscribe({
+    )
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
       next: (s) => {
         this.messageService.openSnackBar('Trainingsplan wurde erstellt.', 'Ok');
         this.router.navigate(['../']);

@@ -3,7 +3,7 @@ import {EExerciseType} from "../../../models/enum/exercisetype.model";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {filter, map, Observable, startWith} from "rxjs";
+import {filter, finalize, map, Observable, startWith} from "rxjs";
 import {MessageService} from "../../../services/message.service";
 import {Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
@@ -37,6 +37,7 @@ export class ExerciseCreateComponent implements OnInit{
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
   exercise: Exercise;
+  loading: boolean;
 
   visible = true;
   removable = true;
@@ -111,6 +112,7 @@ export class ExerciseCreateComponent implements OnInit{
 
   onSubmit() {
     if(this.exerciseForm.valid) {
+      this.loading = true;
       let exercise = this.exerciseForm.value;
       this.exerciseService.create(
         this.exerciseForm.get('name').value,
@@ -118,7 +120,9 @@ export class ExerciseCreateComponent implements OnInit{
         this.exerciseForm.get('videoLink').value,
         this.exerciseForm.get('type').value,
         this.muscleGroups.map(m => m.id)
-      ).subscribe({
+      )
+        .pipe(finalize(() => this.loading = false))
+        .subscribe({
         next: () => {
           this.router.navigate(['coach/exercises']);
           this.messageService.openSnackBar("Übung wurde erstellt.", "Ok");
