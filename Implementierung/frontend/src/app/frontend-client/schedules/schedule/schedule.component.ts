@@ -65,7 +65,7 @@ export class ScheduleComponent implements OnInit{
   }
 
   transformDescription(description: string): string {
-      return description.replace(/\n/g,"<br>");
+    return description.replace(/\n|\\n/g,"<br>");
   }
 
   transformVideo(link: string) {

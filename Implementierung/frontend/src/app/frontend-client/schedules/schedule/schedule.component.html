@@ -27,7 +27,7 @@
             <hr>
             <div *ngFor="let set of exercise.sets">
 
-              <mat-grid-list [cols]="getSetCols(set)" rowHeight="4:1" (window:resize)="handleSize($event)">
+              <mat-grid-list [cols]="getSetCols(set)" rowHeight="3rem" (window:resize)="handleSize($event)">
                 <mat-grid-tile *ngIf="set.weight">
                   <div class="flex flex-column align-items-center">
                     <span class="text-bold">Gewicht</span>
