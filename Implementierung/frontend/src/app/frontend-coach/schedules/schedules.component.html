@@ -21,7 +21,7 @@
         </ng-container>
 
         <ng-container matColumnDef="client">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Klient </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> KlientIn </th>
           <td mat-cell *matCellDef="let element"> {{element.client.firstname}} {{element.client.lastname}} </td>
         </ng-container>
 
@@ -57,7 +57,7 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Löschen </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button class="delete" (click)="delete(element.id)">
+            <button mat-icon-button class="delete" (click)="delete(element)">
               <mat-icon>delete_forever</mat-icon>
             </button>
           </td>

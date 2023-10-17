@@ -51,4 +51,20 @@ class ScheduleController extends Controller
         $this->scheduleRepository->update(['id' => $scheduleId, 'data' => ['visible' => $request->boolean('visible')]]);
         return new ScheduleResource($this->scheduleRepository->get($scheduleId));
     }
+
+    public function destroy(int $id)
+    {
+        $schedule = $this->scheduleRepository->get($id);
+
+        if ($schedule) {
+            // Delete the schedule using the repository's delete method
+            if ($this->scheduleRepository->delete($id)) {
+                return response()->json(['message' => 'Schedule deleted successfully']);
+            } else {
+                return response()->json(['message' => 'Schedule could not be deleted'], 500);
+            }
+        } else {
+            return response()->json(['message' => 'Schedule not found'], 404);
+        }
+    }
 }

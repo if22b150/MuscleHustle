@@ -2,12 +2,12 @@
   <mat-card>
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill class="card-header">
       <mat-card-title>
-        <h1>Klienten</h1>
+        <h1>KlientInnen</h1>
       </mat-card-title>
 
       <div>
         <button mat-flat-button class="primary-button" routerLink="create">
-          Klienten hinzufügen
+          KlientIn anlegen
         </button>
       </div>
     </mat-card-header>
@@ -51,7 +51,7 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;"> Löschen </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button class="delete" (click)="delete(element.id)">
+            <button mat-icon-button class="delete" (click)="delete(element)">
               <mat-icon>delete_forever</mat-icon>
             </button>
           </td>

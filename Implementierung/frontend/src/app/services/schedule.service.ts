@@ -57,4 +57,10 @@ export class ScheduleService {
       return of(result as T);
     };
   }
+
+  public delete(id: number): Observable<void> {
+    return this._http.delete<void>(
+      `${environment.coachApiUrl}schedules/${id}`
+    );
+  }
 }

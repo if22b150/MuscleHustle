@@ -5,6 +5,7 @@ import {MessageService} from "../../services/message.service";
 import {ScheduleService} from "../../services/schedule.service";
 import {Schedule} from "../../models/schedule.model";
 import {filter} from "rxjs";
+import {Exercise} from "../../models/exercise.model";
 
 @Component({
   selector: 'app-schedules',
@@ -38,8 +39,14 @@ export class SchedulesComponent implements OnInit {
     this.messageService.openSnackBar('Trainingsplan #' + id + ' kann leider noch nicht editiert werden', 'Ok');
   }
 
-  delete(id: number) {
-    this.messageService.openSnackBar('Trainingsplan #' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
+  delete(schedule: Schedule) {
+    this.scheduleService.delete(schedule.id)
+      .subscribe({
+        next: () => {
+          this.messageService.openSnackBar('Trainingsplan "' + schedule.name + '" wurde gelöscht.', 'Ok');
+          this.scheduleService.getAll();
+        }
+      })
   }
 
   setVisibility(schedule: Schedule) {

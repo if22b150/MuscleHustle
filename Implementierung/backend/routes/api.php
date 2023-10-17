@@ -25,7 +25,7 @@ Route::name('auth.')->middleware(['api'])->prefix('auth')->group(function() {
 });
 
 Route::name('coach.')->middleware(['api', 'auth:sanctum', 'auth.coach'])->prefix('coach')->group(function() {
-    Route::apiResource('muscle-groups', MuscleGroupController::class)->only(['index', 'store', 'destroy']);
+    Route::apiResource('muscle-groups', MuscleGroupController::class)->only(['index', 'store']);
     Route::apiResource('exercises', ExerciseController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('schedules', ScheduleController::class)->only(['index', 'store', 'destroy']);
     Route::patch('schedules/{scheduleId}/set-visibility', [ScheduleController::class, 'setVisibility']);

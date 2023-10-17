@@ -53,7 +53,7 @@ class Schedule extends Model
 
                 $exerciseSets = [];
                 $exerciseSets[] = $set->withoutRelations();
-                $currentExercise->id = $set->exercise->id;
+                $currentExercise = $set->exercise;
             }
         }
         $exercises[] = ["exercise" => new ExerciseResource($set->exercise), "sets" => $exerciseSets];

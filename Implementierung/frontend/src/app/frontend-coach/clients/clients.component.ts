@@ -39,9 +39,17 @@ export class ClientsComponent implements OnInit{
     this.messageService.openSnackBar('Klient ' + id + ' kann leider noch nicht editiert werden', 'Ok');
   }
 
-  delete(id: number) {
-    this.messageService.openSnackBar('Klient ' + id + ' kann leider noch nicht gelöscht werden', 'Ok');
+  delete(user: Client): void {
+    this.clientService.delete(user.id).subscribe(
+      () => {
+        this.messageService.openSnackBar( user.firstname + ' ' + user.lastname + ' wurde gelöscht', 'Ok');
+        this.clientService.getAll();
+      },
+      (error) => {
+        this.messageService.openSnackBar(user.firstname + ' ' + user.lastname + ' konnte nicht gelöscht werden', 'Ok');
+      }
+    );
   }
 
-    protected readonly genderTypeCast = genderTypeCast;
+  protected readonly genderTypeCast = genderTypeCast;
 }

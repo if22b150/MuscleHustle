@@ -48,4 +48,10 @@ export class ClientService {
       return of(result as T);
     };
   }
+
+  public delete(userId: number): Observable<void> {
+    return this._http.delete<void>(
+      `${environment.coachApiUrl}clients/${userId}`
+    );
+  }
 }

@@ -34,4 +34,20 @@ class UserController extends Controller
         ];
         return new ClientResource($this->userRepository->create($data, true));
     }
+
+    public function destroy(int $id)
+    {
+        $user = $this->userRepository->get($id);
+
+        if ($user) {
+            // Delete the user using the repository's delete method
+            if ($this->userRepository->delete($id)) {
+                return response()->json(['message' => 'User deleted successfully']);
+            } else {
+                return response()->json(['message' => 'User could not be deleted'], 500);
+            }
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
 }
